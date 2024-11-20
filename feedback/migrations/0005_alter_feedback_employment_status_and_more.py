@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='feedback',
             name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='feedback_images/', validators=[feedback.models.FeedBack.validate_image_size]),
+            field=models.ImageField(blank=True, null=True, upload_to='feedback_images/', ),
         ),
     ]

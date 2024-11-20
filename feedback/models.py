@@ -1,17 +1,7 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 
 
 class FeedBack(models.Model):
-
-    def validate_image_size(image):
-        """
-        Validate that the uploaded image does not exceed 5 MB.
-        """
-        max_size_in_mb = 2
-        if image.size > max_size_in_mb * 1024 * 1024:
-            raise ValidationError(f"The maximum file size that can be uploaded is {max_size_in_mb} MB.")
-
 
     SEX_OPTION = (
         ('male', 'Male'),
@@ -36,7 +26,7 @@ class FeedBack(models.Model):
     skills_gained = models.TextField()
     skills_application = models.TextField()
     suggestions = models.TextField()
-    image = models.ImageField(upload_to='feedback_images/', validators=[validate_image_size], null=True, blank=True)
+    image = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} ({self.course})"
