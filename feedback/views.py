@@ -4,6 +4,7 @@ from rest_framework import status
 from .models import FeedBack
 from rest_framework.pagination import PageNumberPagination
 from .serializer import FeedBackSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class FeedBackPagination(PageNumberPagination):
@@ -13,6 +14,7 @@ class FeedBackPagination(PageNumberPagination):
 
 
 class FeedBackView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request):
         feedbacks = FeedBack.objects.all().order_by('name')
