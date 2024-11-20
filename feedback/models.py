@@ -36,7 +36,7 @@ class FeedBack(models.Model):
     skills_gained = models.TextField()
     skills_application = models.TextField()
     suggestions = models.TextField()
-    image = models.ImageField(upload_to='feedback_images/', validators=[validate_image_size])
+    image = models.ImageField(upload_to='feedback_images/', validators=[validate_image_size], null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.course})"
