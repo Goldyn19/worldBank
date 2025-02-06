@@ -66,18 +66,11 @@ class FeedbackWithoutImageAPIView(APIView):
 
 
 class UpdateFeedbackImageView(APIView):
-    def patch(self, request, name):
-        # Convert name to lowercase for case-insensitive search
-        name_lower = name.lower()
+    def patch(self, request, trainee_number):
+        # Query for feedback using trainee_number (not unique, so we take the first match)
+        feedback = FeedBack.objects.filter(trainee_number=trainee_number).first()
 
-        try:
-            # Query for feedback where the name contains the given input (case insensitive)
-            feedback = FeedBack.objects.filter(Q(name__icontains=name_lower)).first()
-
-            if not feedback:
-                return Response({"error": "Feedback not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        except FeedBack.DoesNotExist:
+        if not feedback:
             return Response({"error": "Feedback not found"}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = FeedBackImageUpdateSerializer(feedback, data=request.data, partial=True)
