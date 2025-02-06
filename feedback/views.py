@@ -5,7 +5,7 @@ from .models import FeedBack
 from rest_framework.pagination import PageNumberPagination
 from .serializer import FeedBackSerializer, FeedBackImageUpdateSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from django.db.models import Q
 
 class FeedBackPagination(PageNumberPagination):
     page_size = 12
@@ -50,8 +50,16 @@ class FeedbackWithImageAPIView(APIView):
 
 class UpdateFeedbackImageView(APIView):
     def patch(self, request, name):
+        # Convert name to lowercase for case-insensitive search
+        name_lower = name.lower()
+
         try:
-            feedback = FeedBack.objects.get(name=name)
+            # Query for feedback where the name contains the given input (case insensitive)
+            feedback = FeedBack.objects.filter(Q(name__icontains=name_lower)).first()
+
+            if not feedback:
+                return Response({"error": "Feedback not found"}, status=status.HTTP_404_NOT_FOUND)
+
         except FeedBack.DoesNotExist:
             return Response({"error": "Feedback not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -59,8 +67,9 @@ class UpdateFeedbackImageView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return Response({"message": "Image updated successfully", "data": serializer.data},
-                            status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Image updated successfully", "data": serializer.data},
+                status=status.HTTP_200_OK
+            )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-# Create your views here.
