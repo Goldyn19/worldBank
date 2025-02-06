@@ -32,6 +32,19 @@ class FeedBackView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class FeedbackWithImageAPIView(APIView):
+
+    def get(self, request):
+        # Filter FeedBack objects where the image field is not null
+        feedbacks = FeedBack.objects.filter(image__isnull=False)
+
+        # Serialize the feedbacks
+        serializer = FeedBackSerializer(feedbacks, many=True)
+
+        # Return the response with the serialized data
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class UpdateFeedbackImageView(APIView):
     def patch(self, request, name):
         try:
