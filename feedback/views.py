@@ -59,7 +59,7 @@ class FeedbackWithoutImageAPIView(APIView):
         paginated_feedbacks = paginator.paginate_queryset(feedbacks, request)
 
         # Serialize the paginated feedbacks
-        serializer = FeedBackSerializer(paginated_feedbacks, many=True)
+        serializer = FeedBackSerializer(feedbacks, many=True)
 
         # Return the paginated response
         return paginator.get_paginated_response(serializer.data)
