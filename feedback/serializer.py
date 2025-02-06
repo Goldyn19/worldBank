@@ -14,4 +14,7 @@ class FeedBackSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("A feedback entry with this email already exists.")
         return value
 
-
+class FeedBackImageUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedBack
+        fields = ['image']
