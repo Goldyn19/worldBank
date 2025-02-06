@@ -33,16 +33,19 @@ class FeedBackView(APIView):
 
 
 class FeedbackWithImageAPIView(APIView):
-
     def get(self, request):
         # Filter FeedBack objects where the image field is not null
         feedbacks = FeedBack.objects.filter(image__isnull=False)
 
-        # Serialize the feedbacks
-        serializer = FeedBackSerializer(feedbacks, many=True)
+        # Use the pagination class
+        paginator = FeedBackPagination()
+        paginated_feedbacks = paginator.paginate_queryset(feedbacks, request)
 
-        # Return the response with the serialized data
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        # Serialize the paginated feedbacks
+        serializer = FeedBackSerializer(paginated_feedbacks, many=True)
+
+        # Return the paginated response
+        return paginator.get_paginated_response(serializer.data)
 
 
 class UpdateFeedbackImageView(APIView):
