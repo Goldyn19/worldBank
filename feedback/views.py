@@ -7,6 +7,7 @@ from .serializer import FeedBackSerializer, FeedBackImageUpdateSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.db.models import Q
 
+
 class FeedBackPagination(PageNumberPagination):
     page_size = 12
     page_size_query_param = 'page_size'
@@ -36,6 +37,22 @@ class FeedbackWithImageAPIView(APIView):
     def get(self, request):
         # Filter FeedBack objects where the image field is not null
         feedbacks = FeedBack.objects.filter(image__isnull=False)
+
+        # Use the pagination class
+        paginator = FeedBackPagination()
+        paginated_feedbacks = paginator.paginate_queryset(feedbacks, request)
+
+        # Serialize the paginated feedbacks
+        serializer = FeedBackSerializer(paginated_feedbacks, many=True)
+
+        # Return the paginated response
+        return paginator.get_paginated_response(serializer.data)
+
+
+class FeedbackWithoutImageAPIView(APIView):
+    def get(self, request):
+        # Filter FeedBack objects where the image field is not null
+        feedbacks = FeedBack.objects.filter(image__isnull=True)
 
         # Use the pagination class
         paginator = FeedBackPagination()
