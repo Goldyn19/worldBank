@@ -21,7 +21,7 @@ class FeedBackView(APIView):
         feedbacks = FeedBack.objects.all().order_by('name')
         paginator = FeedBackPagination()
         paginated_feedbacks = paginator.paginate_queryset(feedbacks, request)
-        serializer = FeedBackSerializer(paginated_feedbacks, many=True)
+        serializer = FeedBackSerializer(feedbacks, many=True)
         return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
