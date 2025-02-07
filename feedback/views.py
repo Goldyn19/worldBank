@@ -18,7 +18,12 @@ class FeedBackView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request):
-        feedbacks = FeedBack.objects.all().order_by('name')
+        name = request.query_params.get("name", None)
+        feedbacks = FeedBack.objects.all().order_by("name")
+
+        if name:
+            feedbacks = feedbacks.filter(Q(name__icontains=name))
+
         paginator = FeedBackPagination()
         paginated_feedbacks = paginator.paginate_queryset(feedbacks, request)
         serializer = FeedBackSerializer(paginated_feedbacks, many=True)
