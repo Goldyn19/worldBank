@@ -21,7 +21,7 @@ class FeedBackView(APIView):
         feedbacks = FeedBack.objects.all().order_by('name')
         paginator = FeedBackPagination()
         paginated_feedbacks = paginator.paginate_queryset(feedbacks, request)
-        serializer = FeedBackSerializer(feedbacks, many=True)
+        serializer = FeedBackSerializer(paginated_feedbacks, many=True)
         return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
@@ -59,7 +59,7 @@ class FeedbackWithoutImageAPIView(APIView):
         paginated_feedbacks = paginator.paginate_queryset(feedbacks, request)
 
         # Serialize the paginated feedbacks
-        serializer = FeedBackSerializer(feedbacks, many=True)
+        serializer = FeedBackSerializer(paginated_feedbacks, many=True)
 
         # Return the paginated response
         return paginator.get_paginated_response(serializer.data)
