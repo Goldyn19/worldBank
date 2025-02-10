@@ -40,8 +40,12 @@ class FeedBackView(APIView):
 
 class FeedbackWithImageAPIView(APIView):
     def get(self, request):
+        name = request.query_params.get("name", None)
         # Filter FeedBack objects where the image field is not null
         feedbacks = FeedBack.objects.filter(image__isnull=False)
+
+        if name:
+            feedbacks = feedbacks.filter(Q(name__icontains=name))
 
         # Use the pagination class
         paginator = FeedBackPagination()
