@@ -51,6 +51,16 @@ class FeedBackView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, *args, **kwargs):
+        feedback_id = kwargs.get("pk")  # Get the feedback ID from the URL
+        try:
+            feedback = FeedBack.objects.get(id=feedback_id)
+        except FeedBack.DoesNotExist:
+            return Response({"error": "Feedback not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        feedback.delete()
+        return Response({"message": "Feedback deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
 
 class FeedBackWithID(APIView):
     def get(self, request, trainee_number):
