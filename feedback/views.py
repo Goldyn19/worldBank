@@ -37,6 +37,20 @@ class FeedBackView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, *args, **kwargs):
+        feedback_id = kwargs.get("pk")  # Get the feedback ID from the URL
+        try:
+            feedback = FeedBack.objects.get(id=feedback_id)
+        except FeedBack.DoesNotExist:
+            return Response({"error": "Feedback not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = FeedBackSerializer(feedback, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Feedback updated successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class FeedBackWithID(APIView):
     def get(self, request, trainee_number):
