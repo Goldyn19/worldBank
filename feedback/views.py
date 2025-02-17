@@ -38,6 +38,16 @@ class FeedBackView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class FeedBackWithID(APIView):
+    def get(self, request, trainee_number):
+        feedback = FeedBack.objects.filter(trainee_number=trainee_number).first()
+
+        if not feedback:
+            return Response({"error": "Feedback not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = FeedBackSerializer(feedback)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class FeedbackWithImageAPIView(APIView):
     def get(self, request):
         name = request.query_params.get("name", None)
