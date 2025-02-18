@@ -63,6 +63,15 @@ CORS_ALLOWED_ORIGINS = [
     'https://worldbank-feedbank.vercel.app',
 ]
 
+# Allow specific HTTP methods
+CORS_ALLOW_METHODS = ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
+
+# Allow specific headers
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+]
+
 ROOT_URLCONF = 'WorldBank.urls'
 
 TEMPLATES = [
