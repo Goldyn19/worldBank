@@ -64,7 +64,7 @@ class FeedBackView(APIView):
 
 class FeedBackWithID(APIView):
     def get(self, request, trainee_number):
-        feedback = FeedBack.objects.filter(trainee_number=trainee_number).first()
+        feedback = FeedBack.objects.filter(id=trainee_number).first()
 
         if not feedback:
             return Response({"error": "Feedback not found"}, status=status.HTTP_404_NOT_FOUND)
