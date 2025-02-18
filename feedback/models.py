@@ -19,7 +19,7 @@ class FeedBack(models.Model):
     trainee_number = models.CharField(max_length=100,)
     course = models.CharField(max_length=255)
     nin = models.CharField(max_length=20, blank=True, null=True)
-    sex = models.CharField(max_length=10, choices=SEX_OPTION)
+    sex = models.CharField(max_length=10)
     employment_status = models.CharField(max_length=25)
     overall_rating = models.CharField(max_length=10, blank=True, null=True)
     instructor_rating = models.CharField(max_length=10, blank=True, null=True)
