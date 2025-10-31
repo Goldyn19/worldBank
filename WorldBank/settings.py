@@ -6,19 +6,21 @@ import os
 from pathlib import Path
 from decouple import config
 
+# BASE DIRECTORY
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
-SECRET_KEY = config("DJANGO_SECRET_KEY")
-DEBUG = True
+SECRET_KEY = config("DJANGO_SECRET_KEY", default="your-default-secret-key")
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = [
-    "worldbank-backend.onrender.com",
+    "worldbank-backend.onrender.com",  # Render backend domain
     "127.0.0.1",
     "localhost",
+    config("ALLOWED_HOST", default=""),  # Optional extra host
 ]
 
-# Installed apps
+# INSTALLED APPS
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -31,11 +33,11 @@ INSTALLED_APPS = [
     "corsheaders",
 ]
 
-# Middleware (CORS must come before CommonMiddleware)
+# MIDDLEWARE (CORS must come before CommonMiddleware)
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",  # ✅ must come before CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",  # must come before CommonMiddleware
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -63,15 +65,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "WorldBank.wsgi.application"
 
-# DATABASE (for cPanel phpMyAdmin)
+# DATABASE CONFIGURATION (MySQL on cPanel phpMyAdmin)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": config("DB_NAME"),
         "USER": config("DB_USER"),
         "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
+        "HOST": config("DB_HOST"),  # Example: "newhorizonsnigeria.net.ng"
         "PORT": config("DB_PORT", default="3306"),
+        "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"},
     }
 }
 
@@ -89,7 +92,7 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# STATIC & MEDIA
+# STATIC & MEDIA FILES
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL = "/media/"
@@ -98,12 +101,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # DEFAULT PRIMARY KEY FIELD TYPE
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ✅ CORS Configuration
+# ✅ CORS SETTINGS
 CORS_ALLOWED_ORIGINS = [
-    "https://worldbank-feedbank.vercel.app",  # frontend
-    "http://localhost:3000",  # local dev
+    "https://worldbank-feedback.vercel.app",  # update this to your real frontend domain
+    "http://localhost:3000",
 ]
 
 CORS_ALLOW_METHODS = ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["content-type", "authorization"]
 CORS_ALLOW_CREDENTIALS = True
+
+# ✅ SECURITY HEADERS (optional but recommended for Render)
+CSRF_TRUSTED_ORIGINS = [
+    "https://worldbank-backend.onrender.com",
+    "https://worldbank-feedback.vercel.app",
+]

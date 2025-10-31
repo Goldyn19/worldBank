@@ -1,13 +1,9 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "WorldBank/wsgi.py",
       "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.10"
-      }
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
     },
     {
       "src": "staticfiles/**",
@@ -18,14 +14,6 @@
     {
       "src": "/static/(.*)",
       "dest": "/staticfiles/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/staticfiles/favicon.ico"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/staticfiles/robots.txt"
     },
     {
       "src": "/(.*)",
