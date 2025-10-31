@@ -1,24 +1,39 @@
 {
-    "builds": [
-        {
-            "src": "WorldBank/wsgi.py",
-            "use": "@vercel/python",
-            "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
-        },
-        {
-            "src": "staticfiles/**",
-            "use": "@vercel/static"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/static/(.*)",
-            "dest": "/staticfiles/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "WorldBank/wsgi.py"
-        }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "WorldBank/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.10"
+      }
+    },
+    {
+      "src": "staticfiles/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/staticfiles/favicon.ico"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/staticfiles/robots.txt"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "WorldBank/wsgi.py"
+    }
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "WorldBank.settings",
+    "PYTHONUNBUFFERED": "1"
+  }
 }
-
