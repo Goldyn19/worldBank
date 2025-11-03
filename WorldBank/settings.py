@@ -103,7 +103,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ✅ CORS SETTINGS
 CORS_ALLOWED_ORIGINS = [
-    "https://worldbank-feedback.vercel.app",  # update this to your real frontend domain
+    "https://worldbank-feedbank.vercel.app",  # update this to your real frontend domain
     "http://localhost:3000",
 ]
 
@@ -114,5 +114,5 @@ CORS_ALLOW_CREDENTIALS = True
 # ✅ SECURITY HEADERS (optional but recommended for Render)
 CSRF_TRUSTED_ORIGINS = [
     "https://worldbank-backend.onrender.com",
-    "https://worldbank-feedback.vercel.app",
+    "https://worldbank-feedbank.vercel.app",
 ]
