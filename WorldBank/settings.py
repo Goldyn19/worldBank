@@ -140,5 +140,10 @@ CSRF_TRUSTED_ORIGINS = [
     "https://worldbank-backend.onrender.com",
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 12,
+}
+
 # ✅ Optional: allow all origins temporarily (for testing only)
 # CORS_ALLOW_ALL_ORIGINS = True
