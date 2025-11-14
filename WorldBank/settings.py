@@ -35,9 +35,9 @@ INSTALLED_APPS = [
 
 # MIDDLEWARE (CORS must come before CommonMiddleware)
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # must come before CommonMiddleware
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",  # must come before CommonMiddleware
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -101,6 +101,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # DEFAULT PRIMARY KEY FIELD TYPE
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+CORS_ALLOWED_ORIGINS=False
+
 # ✅ CORS SETTINGS
 CORS_ALLOWED_ORIGINS = [
     "https://worldbank-feedbank.vercel.app",  # Production frontend on Vercel
@@ -109,7 +111,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-CORS_ALLOW_HEADERS = ["content-type", "authorization"]
+CORS_ALLOW_HEADERS = list(default_headers) + ["authorization",]
 
 # ✅ SECURITY SETTINGS
 CSRF_TRUSTED_ORIGINS = [
