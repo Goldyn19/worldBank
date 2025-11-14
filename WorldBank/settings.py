@@ -5,6 +5,7 @@ Django settings for WorldBank project.
 import os
 from pathlib import Path
 from decouple import config
+from corsheaders.defaults import default_headers
 
 # BASE DIRECTORY
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,14 +29,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "feedback",  # your app
+    "feedback",      # your app
     "rest_framework",
     "corsheaders",
 ]
 
 # MIDDLEWARE (CORS must come before CommonMiddleware)
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",  # must come before CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",  # put this first so it can add headers
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -101,20 +102,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # DEFAULT PRIMARY KEY FIELD TYPE
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS=False
-
 # ✅ CORS SETTINGS
+CORS_ALLOW_ALL_ORIGINS = False  # keep restrictive in production
+
 CORS_ALLOWED_ORIGINS = [
     "https://worldbank-feedbank.vercel.app",  # Production frontend on Vercel
-    "http://localhost:3000",  # Local development
+    "http://localhost:3000",                  # Local development
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "authorization",
+]
+
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-
-from corsheaders.defaults import default_headers
-
-CORS_ALLOW_HEADERS = list(default_headers) + ["authorization",]
 
 # ✅ SECURITY SETTINGS
 CSRF_TRUSTED_ORIGINS = [
