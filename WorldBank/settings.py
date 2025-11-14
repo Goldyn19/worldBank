@@ -110,9 +110,19 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",                  # Local development
 ]
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
     "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = [
     "GET",
@@ -123,7 +133,6 @@ CORS_ALLOW_METHODS = [
     "OPTIONS",
 ]
 
-CORS_ALLOW_CREDENTIALS = True
 
 # ✅ SECURITY SETTINGS
 CSRF_TRUSTED_ORIGINS = [
