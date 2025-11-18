@@ -22,4 +22,5 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('worldbank/', include('feedback.urls')),
+    path("test-db/", include("feedback.testdb")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
