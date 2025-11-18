@@ -3,11 +3,12 @@ from .models import FeedBack
 
 
 class FeedBackSerializer(serializers.ModelSerializer):
+    # Declare custom fields OUTSIDE Meta
+    image = serializers.URLField(required=False, allow_null=True)
+
     class Meta:
         model = FeedBack
         fields = '__all__'
-
-        image = serializers.URLField(required=False, allow_null=True)
 
     def validate_email(self, value):
         if FeedBack.objects.filter(email=value).exists():
