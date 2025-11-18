@@ -5,7 +5,6 @@ from .views import (
     FeedbackWithImageAPIView,
     FeedbackWithoutImageAPIView,
     FeedBackWithID,
-    health_check,
 )
 
 urlpatterns = [
@@ -31,5 +30,4 @@ urlpatterns = [
         FeedBackWithID.as_view(),
         name="feedback-with-id",
     ),
-    path("health/", health_check, name="health"),
 ]
