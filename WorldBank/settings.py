@@ -69,7 +69,7 @@ WSGI_APPLICATION = "WorldBank.wsgi.application"
 # DATABASE CONFIGURATION (MySQL on cPanel phpMyAdmin)
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": config("DB_ENGINE", default="django.db.backends.mysql"),
         "NAME": config("DB_NAME"),
         "USER": config("DB_USER"),
         "PASSWORD": config("DB_PASSWORD"),
