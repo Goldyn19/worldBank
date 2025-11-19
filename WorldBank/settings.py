@@ -68,14 +68,18 @@ WSGI_APPLICATION = "WorldBank.wsgi.application"
 
 # DATABASE CONFIGURATION (MySQL on cPanel phpMyAdmin)
 DATABASES = {
+    # "default": {
+    #     "ENGINE": config("DB_ENGINE", default="django.db.backends.mysql"),
+    #     "NAME": config("DB_NAME"),
+    #     "USER": config("DB_USER"),
+    #     "PASSWORD": config("DB_PASSWORD"),
+    #     "HOST": config("DB_HOST"),  # Example: "newhorizonsnigeria.net.ng"
+    #     "PORT": config("DB_PORT"),
+    #     "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"},
+    # },
     "default": {
-        "ENGINE": config("DB_ENGINE", default="django.db.backends.mysql"),
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),  # Example: "newhorizonsnigeria.net.ng"
-        "PORT": config("DB_PORT"),
-        "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"},
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
