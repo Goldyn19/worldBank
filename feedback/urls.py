@@ -5,6 +5,7 @@ from .views import (
     FeedbackWithImageAPIView,
     FeedbackWithoutImageAPIView,
     FeedBackWithID,
+    testdb,
 )
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
         FeedBackWithID.as_view(),
         name="feedback-with-id",
     ),
+      path("test-db/", testdb.test_db_connection),
 ]
